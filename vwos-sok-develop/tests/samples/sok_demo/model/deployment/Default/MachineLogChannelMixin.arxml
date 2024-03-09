@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <ADMIN-DATA/>
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>vwg</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>machines</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>Default</SHORT-NAME>
+              <ELEMENTS>
+                <MACHINE>
+                  <SHORT-NAME>Default</SHORT-NAME>
+                  <MODULE-INSTANTIATIONS>
+                    <LOG-AND-TRACE-INSTANTIATION>
+                      <SHORT-NAME>LogAndTraceInstantiation</SHORT-NAME>
+                      <ADMIN-DATA/>
+                      <DLT-LOG-CHANNELS>
+                        <DLT-LOG-CHANNEL>
+                          <SHORT-NAME>@EXECUTABLE_NAME@_log_channel</SHORT-NAME>
+                          <APPLICATION-DESCRIPTION>@LOG_DESCRIPTION@</APPLICATION-DESCRIPTION>
+                          <APPLICATION-ID>@LOG_CTX_ID@</APPLICATION-ID>
+                          <CONTEXT-ID>default</CONTEXT-ID>
+                          <LOG-TRACE-DEFAULT-LOG-LEVEL>DEBUG</LOG-TRACE-DEFAULT-LOG-LEVEL>
+                          <LOG-TRACE-FILE-PATH/>
+                        </DLT-LOG-CHANNEL>
+                      </DLT-LOG-CHANNELS>
+                    </LOG-AND-TRACE-INSTANTIATION>
+                  </MODULE-INSTANTIATIONS>
+                </MACHINE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

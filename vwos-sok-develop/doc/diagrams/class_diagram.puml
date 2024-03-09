@@ -1,0 +1,225 @@
+@startuml SOK class diagram
+
+package Common {
+  note right of ICsmAccessor::MacCreate
+  will be used by Sok for creation of secure PDUs
+  & by FM server for creation of authentic time
+  end note
+  note right of ICsmAccessor::MacVerify
+  will be used by Sok - secure PDU verification
+  & by Sok-FM for authentic time verification
+  end note
+  note right of ICsmAccessor::IsKeyExists
+  will be used by Sok-FM in init phase 
+  checking all keys exists
+  end note
+  note right of ICsmAccessor::GenereteRandomBytes
+  will be used by Sok-FM to generate challenges
+  end note
+  interface ICsmAccessor {
+    +MacCreate(keyIdentifier, vector<uint8> data, algorithm) -> Result<vector<uint8>> = 0
+    +MacVerify(keyIdentifier, vector<uint8> data, vector<uint8> Mac, algorithm) -> Result<OK/ERROR> = 0
+    +IsKeyExists(keyIdentifier) -> Result<OK/ERROR> = 0
+    +GenereteRandomBytes(size) -> Result<vector<uint8>> = 0
+  }
+
+  class CsmAccessorDemo implements ICsmAccessor
+  class CsmAccessorCryptolib implements ICsmAccessor
+
+  class SokCommonInternalFactory {
+    ~CreateCsmAccessor() -> ICsmAccessor
+  }
+}
+
+package SOK_FM {
+  class SokFmInternalFactory {
+    ~CreateSignalManager() -> ISignalManager
+    ~CreateFreshnessValueManagerConfigAccessor() -> IFreshnessValueManagerConfigAccessor
+    ~CreateFvmRuntimeAttributesManager() -> IFvmRuntimeAttributesManager
+  }
+  package Definitions {
+    enum SokFreshnessType {
+      kVwSokFreshnessValue = 0,
+      kVwSokFreshnessValueSessionSender,
+      kVwSokFreshnessValueSessionReceiver,
+      kVwSokFreshnessCrChallenge,
+      kVwSokFreshnessCrResponse,
+      kVwSokFreshnessNone,
+    }
+
+    struct SokFvConfigInstance {
+      SokFreshnessType type
+      pdu_id ID
+      uint sessionCounterLength
+    }
+    note bottom: Auth broadcast PDUs
+
+    struct SokFmRuntimeAttributes {
+      bool     valueIsActive
+      uint8_t  sessionCounterLength
+      uint64_t firstUsed
+      uint64_t latestVerifiedTime
+      uint64_t lastRequestedForVerification
+      uint64_t latestSignedTime
+      uint64_t lastRequestedForSigning
+      vector<uint8_t> sessionCounterLastUsed
+    }
+
+    struct FrameConfig {
+    string name
+    uint16_t     maxPayloadSizeBytes  
+    string sourceIp
+    string destinationIp
+    uint16_t sourcePort
+    uint16_t destinationPort
+    }
+    struct PduConfig {
+        FrameConfig frameConfig
+        string name
+        pdu_id id
+        uint32_t    lengthBytes
+    }
+    struct SignalConfig {
+      PduConfig pduConfig
+      string name
+      uint32_t startByte
+      uint32_t lengthInBits
+    }
+    struct ChallengeConfigInstance {
+      SokFreshnessType type
+      SignalConfig challengeSignalConfig
+    }
+    note bottom: Challenge/Response PDUs
+
+    struct SokFmConfig {
+    std::string mNetworkInterface
+    std::string mEcuName
+    uint16_t mKeyIdForAuthFvDistribution
+    SokFvConfig mAuthBroadcastConfig
+    ChallengeConfig mChallengesConfig
+    SokKeyConfig mKeyConfig
+    FmServerClientsConfigMap mFmServerClientsConfig
+    SignalConfig mUnAuthFvDistributionSignal
+    SignalConfig mAuthFvChallengeSignal
+    SignalConfig mAuthFvValueSignal
+    SignalConfig mAuthFvSignatureSignal
+    }
+
+  }
+
+  note bottom of SokFvConfigArrayInstance
+  FM config will have a vector of this struct indexed by FVId
+  this array will be accessed thru FreshnessValueManagerConfigAccessor
+  end note
+
+  note right of SokFvConfigArrayInstance::freshnessValueP
+  pointer to the current FV or challenge of this FVId
+  end note
+
+  class FVM {
+    +GetRxFreshness(FVId, TruncatedFreshnessValue, attampts) -> Result<FVContainer>
+    +GetTxFreshness(FVId) -> Result<FVContainer>
+    +Initialize()
+  }
+
+  class FreshnessValueManager <<singleton>> {
+    ~GetInstance()
+    +GetRxFreshness(FVId, TruncatedFreshnessValue, attampts) -> Result<FVContainer>
+    +GetTxFreshness(FVId) -> Result<FVContainer>
+    +VerificationStatusCallout(verificationStatus)
+    +SPduTxConfirmation(FVId)
+    +MainFunction()
+    +Init()
+    +Deint()
+    +TriggerCrRequest(FVId)
+    +OfferCrRequest(FVId, ChallengeReceivedIndicationCb)
+    -unique_ptr AFreshnessValueManagerImpl pImpl
+  }
+  note left of FreshnessValueManager
+  API for Sok module for retriving FV and for reporting sign/verify status
+  offers applications method for triggering CR request
+  end note
+
+  FVM->FreshnessValueManager
+
+  note top of FVM
+  This is the Adaptive Autosar Freshness Manager class
+  We provide implementation for the API For SecOC usage
+  end note
+
+  abstract AFreshnessValueManagerImpl {
+    +virtual MainFunction() = 0
+    +GetRxFreshness(FVId, attampts) -> Result<FVContainer>
+    +GetTxFreshness(FVId) -> Result<FVContainer>
+    +VerificationStatusCallout(verificationStatus)
+    +SPduTxConfirmation(FVId)
+    +Init()
+    +Deint()
+    +TriggerCrRequest(FVId)
+    +OfferCrRequest(FVId, ChallengeReceivedIndicationCb)
+    #registerToSignals()
+    #virtual serverOrParticipantInit() = 0
+    #incTimers()
+  }
+
+  class FreshnessValueManagerImplParticipant extends AFreshnessValueManagerImpl
+  class FreshnessValueManagerImplServer extends AFreshnessValueManagerImpl
+
+  FreshnessValueManager"1" *--AFreshnessValueManagerImpl
+
+  interface IFreshnessValueManagerConfigAccessor {
+    +Init() -> bool
+    +GetSokFvConfigInstanceByFvId(SokFreshnessValueId id) const = 0 -> FvmResult<SokFvConfigInstance>
+    +GetChallengeConfigInstanceByFvId(SokFreshnessValueId id) const = 0 -> FvmResult<ChallengeConfigInstance>
+    +GetEntryTypeByFvId(SokFreshnessValueId id) const = 0 -> FvmResult<SokFreshnessType>
+    +GetAllFreshnessValueIds() const = 0 -> vector<SokFreshnessValueId>
+    +GetAllAuthBroadcastFreshnessValueIds() const = 0 -> vector<SokFreshnessValueId>
+    +GetAllChallengeFreshnessValueIds() const = 0 -> vector<SokFreshnessValueId>
+    +GetClientsConfigMap() const = 0 -> FmServerClientsConfigMap
+    +GetEcuName() const = 0 -> string
+    +GetNetworkInterface() const = 0 -> string
+    +GetUnauthenticatedFvSignalConfig() const = 0 -> SignalConfig
+    +GetAuthenticatedFvValueSignalConfig() const = 0 -> SignalConfig
+    +GetAuthenticatedFvSignatureSignalConfig() const = 0 -> SignalConfig
+    +GetAuthenticatedFvChallengeSignalConfig() const = 0 -> SignalConfig
+    +GetSokKeyConfig() const = 0 -> SokKeyConfig
+    +GetEcuKeyIdForFvDistribution() const = 0 -> uint16_t
+  }
+
+  class FreshnessValueManagerConfigAccessor <<singleton>> implements IFreshnessValueManagerConfigAccessor
+
+  class FvmConfigParser {
+    +Parse(string json, SokFmConfig& outConf) -> bool
+  }
+
+  FreshnessValueManagerConfigAccessor->FvmConfigParser
+
+  AFreshnessValueManagerImpl->IFreshnessValueManagerConfigAccessor
+
+  interface IFvmRuntimeAttributesManager {
+    +Init()
+    +Reset()
+    +bool IsActive(FVId)
+    +bool SetActive(FVId, activationTime)
+    +vector<uint8_t> IncSessionCounter(FVId)
+    +vector<uint8_t> GetSessionCounter(FVId)
+    +vector<uint8_t> GetNextSessionCounter(FVId)
+    +UpdateEvent(EventType, FVId, value)
+    +uint64_t GetEvent(EventType type, SokFreshnessValueId fvId)
+  }
+
+  class FvmRuntimeAttributesManager implements IFvmRuntimeAttributesManager
+  AFreshnessValueManagerImpl->IFvmRuntimeAttributesManager
+
+  interface ISignalManager {
+    +Subscribe(SignalConfig, callback) = 0
+    +Publish(SignalConfig, value) = 0
+  }
+
+  class SignalManagerDemo implements ISignalManager
+  class SignalManagerSci implements ISignalManager
+
+  AFreshnessValueManagerImpl -> ISignalManager
+}
+
+@enduml

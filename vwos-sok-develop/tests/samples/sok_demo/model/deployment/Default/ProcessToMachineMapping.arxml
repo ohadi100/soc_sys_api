@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <ADMIN-DATA/>
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>vwg</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>applications</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>@EXECUTABLE_NAME@</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE>
+                  <SHORT-NAME>deployment</SHORT-NAME>
+                  <AR-PACKAGES>
+                    <AR-PACKAGE>
+                      <SHORT-NAME>Default</SHORT-NAME>
+                      <ELEMENTS>
+                        <PROCESS-TO-MACHINE-MAPPING-SET>
+                          <SHORT-NAME>ProcessToMachineMapping</SHORT-NAME>
+                          <PROCESS-TO-MACHINE-MAPPINGS>
+                            <PROCESS-TO-MACHINE-MAPPING>
+                              <SHORT-NAME>ProcessToMachineMapping</SHORT-NAME>
+                              <MACHINE-REF DEST="MACHINE">/vwg/machines/Default/Default</MACHINE-REF>
+                              <PROCESS-REF DEST="PROCESS">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/@EXECUTABLE_NAME@_Default</PROCESS-REF>
+                            </PROCESS-TO-MACHINE-MAPPING>
+                          </PROCESS-TO-MACHINE-MAPPINGS>
+                        </PROCESS-TO-MACHINE-MAPPING-SET>
+                      </ELEMENTS>
+                    </AR-PACKAGE>
+                  </AR-PACKAGES>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

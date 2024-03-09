@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <ADMIN-DATA/>
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>vwg</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>applications</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>@EXECUTABLE_NAME@</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE>
+                  <SHORT-NAME>deployment</SHORT-NAME>
+                  <AR-PACKAGES>
+                    <AR-PACKAGE>
+                      <SHORT-NAME>Default</SHORT-NAME>
+                      <ELEMENTS>
+                        <PROCESS>
+                          <SHORT-NAME>@EXECUTABLE_NAME@_Default</SHORT-NAME>
+                          <ADMIN-DATA>
+                            <SDGS>
+                              <SDG GID="DvMex:LogTraceProcessExtensions">
+                                <SD GID="maxQueueSize">1000</SD>
+                                <SD GID="configDirPath">/etc/logging_config.json</SD>
+                                <SD GID="maxNumberOfLogSinks">6</SD>
+                                <SD GID="maxSupportedLogLevel">VERBOSE</SD>
+                                <SD GID="enableLogMode">CONSOLE</SD>
+                                <SD GID="maxLoggers">50</SD>
+                                <SD GID="enableLogMode">NETWORK</SD>
+                                <SD GID="ipcPort">33</SD>
+                                <SD GID="timestampClock">SYSTEM</SD>
+                              </SDG>
+                            </SDGS>
+                          </ADMIN-DATA>
+                        </PROCESS>
+                        <DLT-LOG-CHANNEL-TO-PROCESS-MAPPING>
+                          <SHORT-NAME>@EXECUTABLE_NAME@_log_channel</SHORT-NAME>
+                          <DLT-LOG-CHANNEL-REF DEST="DLT-LOG-CHANNEL">/vwg/machines/Default/Default/LogAndTraceInstantiation/@EXECUTABLE_NAME@_log_channel</DLT-LOG-CHANNEL-REF>
+                          <PROCESS-REF DEST="PROCESS">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/@EXECUTABLE_NAME@_Default</PROCESS-REF>
+                        </DLT-LOG-CHANNEL-TO-PROCESS-MAPPING>
+                      </ELEMENTS>
+                    </AR-PACKAGE>
+                  </AR-PACKAGES>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

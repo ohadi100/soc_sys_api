@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>vwg</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>applications</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>@EXECUTABLE_NAME@</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE>
+                  <SHORT-NAME>design</SHORT-NAME>
+                  <ELEMENTS>
+                    <ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>RootSWC</SHORT-NAME>
+                      <PORTS>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PDiagnosticDataManagement</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SERVICE-INTERFACE">/vwg/services/sysdiagapi/DiagnosticDataManagement</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RDiagnosticDataManagement</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SERVICE-INTERFACE">/vwg/services/sysdiagapi/DiagnosticDataManagement</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RDiagnosticRegistration</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SERVICE-INTERFACE">/vwg/services/sysdiagapi/DiagnosticRegistration</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                      </PORTS>
+                    </ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE>
+                    <EXECUTABLE>
+                      <SHORT-NAME>@EXECUTABLE_NAME@</SHORT-NAME>
+                      <CATEGORY>APPLICATION_LEVEL</CATEGORY>
+                      <ADMIN-DATA>
+                          <SDGS>
+                            <SDG GID="DvMex:CryptoExecutableExtension">
+                            <SD GID="useCryptoApi">true</SD>
+                          </SDG>
+                        </SDGS>
+                      </ADMIN-DATA>
+                      <ROOT-SW-COMPONENT-PROTOTYPE>
+                        <SHORT-NAME>@EXECUTABLE_NAME@RootSWC</SHORT-NAME>
+                        <APPLICATION-TYPE-TREF DEST="ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE">/vwg/applications/@EXECUTABLE_NAME@/design/RootSWC</APPLICATION-TYPE-TREF>
+                      </ROOT-SW-COMPONENT-PROTOTYPE>
+                      <VERSION>1.0.0</VERSION>
+                    </EXECUTABLE>
+                    <PROCESS-DESIGN>
+                      <SHORT-NAME>@EXECUTABLE_NAME@ProcessDesign</SHORT-NAME>
+                      <EXECUTABLE-REF DEST="EXECUTABLE">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@</EXECUTABLE-REF>
+                    </PROCESS-DESIGN>
+                  </ELEMENTS>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

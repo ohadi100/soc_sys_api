@@ -1,0 +1,42 @@
+@startuml authentic broadcast protocol
+!pragma teoz true
+
+actor sok_sink
+actor sok_source
+actor pdu_router
+participant SOK
+participant SOK_FM
+participant SCI
+participant Crypto
+
+== ECU1 - SOK Source ==
+autonumber
+sok_source -> pdu_router: authenticPDU
+pdu_router -> SOK: SokSign(pdu_id, authenticPDU)
+activate SOK
+SOK -> SOK_FM: GetTxFreshness(FVId)
+activate SOK_FM
+return uint64 (FV)
+SOK -> Crypto: sign(authenticPDU + FV)
+activate Crypto
+return MAC
+SOK -> SOK_FM: SPduTxConfirmation(FVId)
+SOK_FM --> SOK_FM: set internal\nruntime attributes
+return secPDU(authenticPDU + MAC)
+pdu_router ->]: transmit secured PDU over communication medium
+
+== ECU2 - SOK Sink ==
+pdu_router->SOK:SokVerify(pdu_id, secPDU)
+activate SOK
+SOK->SOK_FM:GetRxFreshness(FVId, attempt(0))
+activate SOK_FM
+return uint64 (FV)
+SOK -> Crypto: Verify(secPDU, authenticPDU + FV)
+activate Crypto
+return OK
+SOK -> SOK_FM: VerificationStatusCallout(verificationStatus)
+SOK_FM --> SOK_FM: set internal\nruntime attributes
+return OK
+pdu_router->sok_sink: authenticPDU
+
+@enduml

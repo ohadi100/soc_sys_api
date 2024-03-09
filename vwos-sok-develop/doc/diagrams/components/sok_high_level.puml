@@ -1,0 +1,14 @@
+@startuml
+
+[SOK] <<Library>> as sok #STRATEGY
+[Freshness Manager] <<**Executable**>> as fm #STRATEGY
+[FM Library] <<Library>> as fmlib #STRATEGY
+[Communication end-point] <<**Executable**>> as ce #MOTIVATION
+interface "Data" as data
+
+data --> ce
+ce <--> sok: "Sign\Verify\nVia SOK API"
+sok --> fmlib: "FM API"
+fmlib --> fm
+
+@enduml

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <ADMIN-DATA/>
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>vwg</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>applications</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>@EXECUTABLE_NAME@</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE>
+                  <SHORT-NAME>deployment</SHORT-NAME>
+                  <AR-PACKAGES>
+                    <AR-PACKAGE>
+                      <SHORT-NAME>Default</SHORT-NAME>
+                      <ELEMENTS>
+                        <PROCESS>
+                          <SHORT-NAME>@EXECUTABLE_NAME@_Default</SHORT-NAME>
+                          <DESIGN-REF DEST="PROCESS-DESIGN">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@ProcessDesign</DESIGN-REF>
+                          <EXECUTABLE-REF DEST="EXECUTABLE">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@</EXECUTABLE-REF>
+                          <PROCESS-STATE-MACHINE>
+                            <SHORT-NAME>ModeDeclarationGroupPrototype</SHORT-NAME>
+                            <TYPE-TREF DEST="MODE-DECLARATION-GROUP">/vwg/ApplicationStates</TYPE-TREF>
+                          </PROCESS-STATE-MACHINE>
+                          <STATE-DEPENDENT-STARTUP-CONFIGS>
+                            <STATE-DEPENDENT-STARTUP-CONFIG>
+                              <FUNCTION-GROUP-STATE-IREFS>
+                                <FUNCTION-GROUP-STATE-IREF>
+                                  <CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/vwg/machines/Default/DefaultFunctionGroups/MachineFG</CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF>
+                                  <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/vwg/MachineStates/Running</TARGET-MODE-DECLARATION-REF>
+                                </FUNCTION-GROUP-STATE-IREF>
+                                <FUNCTION-GROUP-STATE-IREF>
+                                  <CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/vwg/machines/Default/DefaultFunctionGroups/MachineFG</CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF>
+                                  <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/vwg/MachineStates/RunLevelS0</TARGET-MODE-DECLARATION-REF>
+                                </FUNCTION-GROUP-STATE-IREF>
+                                <FUNCTION-GROUP-STATE-IREF>
+                                  <CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/vwg/machines/Default/DefaultFunctionGroups/MachineFG</CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF>
+                                  <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/vwg/MachineStates/RunLevelS1</TARGET-MODE-DECLARATION-REF>
+                                </FUNCTION-GROUP-STATE-IREF>
+                                <FUNCTION-GROUP-STATE-IREF>
+                                  <CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/vwg/machines/Default/DefaultFunctionGroups/MachineFG</CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF>
+                                  <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/vwg/MachineStates/RunLevelS2</TARGET-MODE-DECLARATION-REF>
+                                </FUNCTION-GROUP-STATE-IREF>
+                              </FUNCTION-GROUP-STATE-IREFS>
+                              <STARTUP-CONFIG-REF DEST="STARTUP-CONFIG">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/StartupConfigs/StartupConfig</STARTUP-CONFIG-REF>
+                            </STATE-DEPENDENT-STARTUP-CONFIG>
+                          </STATE-DEPENDENT-STARTUP-CONFIGS>
+                        </PROCESS>
+                        <STARTUP-CONFIG-SET>
+                          <SHORT-NAME>StartupConfigs</SHORT-NAME>
+                          <STARTUP-CONFIGS>
+                            <STARTUP-CONFIG>
+                              <SHORT-NAME>StartupConfig</SHORT-NAME>
+                              <PROCESS-ARGUMENTS>
+                                <PROCESS-ARGUMENT>
+                                  <ARGUMENT>@PROCESS_ARG@</ARGUMENT>
+                                </PROCESS-ARGUMENT>
+                              </PROCESS-ARGUMENTS>
+                              <SCHEDULING-POLICY>SCHED_RR</SCHEDULING-POLICY>
+                              <SCHEDULING-PRIORITY>15</SCHEDULING-PRIORITY>
+                            </STARTUP-CONFIG>
+                          </STARTUP-CONFIGS>
+                        </STARTUP-CONFIG-SET>
+                      </ELEMENTS>
+                    </AR-PACKAGE>
+                  </AR-PACKAGES>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

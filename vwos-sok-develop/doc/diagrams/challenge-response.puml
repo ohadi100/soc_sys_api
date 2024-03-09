@@ -1,0 +1,69 @@
+@startuml challenge response protocol
+!pragma teoz true
+
+actor sok_sink
+actor sok_source
+actor pdu_router
+participant SOK
+participant SOK_FM
+participant SCI
+participant Crypto
+
+== ECU1 - Generating and sending challenge ==
+autonumber
+sok_sink -> SOK_FM : SokFm_TriggerCrRequest(FVId)
+activate SOK_FM
+SOK_FM -> Crypto: gerRandomBytes(64)
+activate Crypto
+return BytesArray(challenge)
+
+note left SCI: config should have an entry for the <freshnessName> \nwith the matching <challengeSignal>
+SOK_FM -> SCI: createTransmittedSignal(<challengeSignal>)
+activate SCI
+return signalObj
+SOK_FM -> SCI: signalObj.setValue(challenge)
+activate SCI
+SCI ->] : out going signal on communication medium
+return OK
+SOK_FM --> SOK_FM: set internal FV for config with entry <FVId> to `challenge`
+return OK
+
+== ECU2 - Receiving and responding to challenge ==
+sok_source -> SOK_FM: OfferCrRequest(FVId, CB)
+SOK_FM -> SCI: register for incoming signal challenges as configured\nduring initialization phase
+SCI -> SOK_FM: onEvent(Event, Signal)\nnotify incoming signal (containing the challenge) thru some event handling mechanism
+SOK_FM --> SOK_FM: set internal FV for config with entry <freshnessName> to the incoming challenge
+note right SOK_FM: notify the application about incoming challenge
+SOK_FM -> sok_source: CB(FVId)
+sok_source -> pdu_router: send_authentic_IPDU(authentic_IPDU)
+pdu_router -> SOK: SOK_SIGN(pdu_id, authentic_IPDU)
+activate SOK
+SOK -> SOK_FM: GetTxFreshness(freshnessValueId)
+activate SOK_FM
+SOK_FM --> SOK_FM: fetch FV for config entry with the matching `freshnessValueId`\n this is the stored challenge from step 13
+return FV (challenge)
+SOK -> Crypto: sign(pdu_id + authentic_IPDU + FV)
+activate Crypto
+return Secured I-PDU
+SOK -> SOK_FM: SPduTxConfirmation(FVId)
+SOK_FM --> SOK_FM: set internal\nruntime attributes
+return Secured I-PDU
+pdu_router ->] : transmit the secured I-PDU on communication medium
+
+== ECU1 - Receiving the response ==
+pdu_router -> SOK: SOK_VERIFY(secured_IPDU)
+activate SOK
+SOK -> SOK_FM: GetRxFreshness(freshnessValueId)
+activate SOK_FM
+SOK_FM --> SOK_FM: fetch FV for config entry with the matching `freshnessValueId`\n this is the stored challenge from step 9
+SOK_FM --> SOK_FM: discard the stored challenge value
+return FV (challenge)
+SOK -> Crypto: verify(pdu_id + authentic_IPDU + FV)
+activate Crypto
+return OK
+SOK -> SOK_FM: VerificationStatusCallout(verificationStatus)
+SOK_FM --> SOK_FM: set internal\nruntime attributes
+return Authentic I-PDU
+pdu_router -> sok_sink: Authentic I-PDU
+
+@enduml

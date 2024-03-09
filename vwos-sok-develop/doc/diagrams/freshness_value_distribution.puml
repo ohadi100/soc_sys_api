@@ -1,0 +1,51 @@
+@startuml freshness value distribution
+!pragma teoz true
+
+participant SOK_FM
+participant SCI
+participant Crypto
+
+== ECU1 - FVM Participant - init phase ==
+note right SOK_FM: incomming Unauthenticated FV
+SOK_FM -> SCI: Subscribe to signal "SOK_ungeschuetzte_Zeit"
+note right SOK_FM: incomming FV signal as part of authneticated FV
+SOK_FM -> SCI: Subscribe to signal "SOK_Zeit_ECU1_Zeit"
+note right SOK_FM: incomming signature signal as part of authneticated FV
+SOK_FM -> SCI: Subscribe to signal "SOK_Zeit_ECU1_Signatur"
+== ECU2 - FVM Server - init phase ==
+note right SOK_FM: incomming challenge signal as part of authneticated FV\n<color: red>this is done for all configured clients
+SOK_FM -> SCI: Subscribe to signal "SOK_Zeit_<ECU>_Challenge"
+
+== ECU1 - FVM Participant - request authenticated FV ==
+autonumber
+note right SOK_FM
+sequence can start due to:
+1. startup - no auth FV
+2. exceeding jitter from incomming unauthenticated FV
+3. timeout from last auth FV
+4. timeout from unanswered FV request
+end note
+SOK_FM -> SOK_FM: mark internal FV as invalid
+SOK_FM -> Crypto: generateRandomBytes(64)
+return vector<uint8> as challenge
+SOK_FM -> SCI: publish signal SOK_Zeit_ECU1_Challenge with generated challenge
+return OK
+SOK_FM -> SOK_FM: store challenge and timestamp for the FV request
+
+== ECU2 - FVM Server - response authenticated FV ==
+SCI -> SOK_FM: notify incoming signal "SOK_Zeit_ECU1_Challenge" with challenge value
+SOK_FM -> Crypto: CreateMac(FV + challenge)
+return MAC
+SOK_FM -> SCI: publish signal "SOK_Zeit_ECU1_Zeit" with FV
+SOK_FM -> SCI: publish signal "SOK_Zeit_ECU1_Signature" with MAC
+
+== ECU1 - FVM Participant - receive authenticated FV ==
+SCI -> SOK_FM: notify incoming signal "SOK_Zeit_ECU1_Zeit" with FV
+SCI -> SOK_FM: notify incoming signal "SOK_Zeit_ECU1_Signature" with MAC
+note right SOK_FM: once both parts arrive -> validate the FV
+SOK_FM -> Crypto: MacVerify(key, data(FV + cached challenge), MAC, algorithm)
+note right SOK_FM: <color: red>**__open__**: algorithm is not defined
+return OK
+SOK_FM -> SOK_FM: update FV & discard challenge
+
+@enduml

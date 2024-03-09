@@ -1,0 +1,1 @@
+Optional folder: Scripts, files loaded at  runtime (e.g. start parameters, ports, environment variables)

@@ -1,0 +1,23 @@
+@startuml
+
+[*] --> RequestFV : [startup]
+
+RequestFV: Request an authentice FV by publishing a request signal
+RequestFV--> FVInProgress: published successfully
+
+FVInProgress: FV-request is in progess, check if the request is reached timeout
+FVInProgress--> RequestFV: timeout
+FVInProgress--> ProcessFV : **[eFVResReceived]**
+
+ProcessFV: Process an authenticated FV-response, verify the MAC
+ProcessFV --> FVInProgress : MAC verification failed
+ProcessFV --> Idle : MAC verification succeeded
+
+Idle: An authentic FV value is valid and an unuthentic FV response has not yet been received. \nIn this state nothing is done.
+Idle --> ProcessUnauthFV : **[eFVUnauthenticResReceived]**
+
+ProcessUnauthFV: Process an unauthenticated FV-response, \ncalculate the jitter value between the authentic and unuathentic FVs
+ProcessUnauthFV --> Idle : jitter value is valid
+ProcessUnauthFV --> RequestFV: jitter exceeded the maximum value
+
+@enduml

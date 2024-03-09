@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message SokDemoMessage {
+    int32 pdu_id = 1;
+    optional bytes protection_msg = 2;
+}

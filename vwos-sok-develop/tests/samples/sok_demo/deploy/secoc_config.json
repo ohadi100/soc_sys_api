@@ -1,0 +1,75 @@
+{
+    "MessageConfigs": [
+        {
+            "SecocId": 0,
+            "DataId": 0,
+            "FreshnessValueId": 0,
+            "SecurityProfile": {
+                "algorithmFamily": 20,
+                "algorithmMode": 16,
+                "algorithmSecondaryFamily": 0
+            },
+            "TruncationConfig": {
+                "FreshnessValueLength": 0,
+                "FreshnessValueTruncLength": 24,
+                "AuthInfoTruncLength": 8
+            },
+            "GeneratorKeyUuid": "b2adc146-eefa-11e8-8eb2-f2801f1b9fd1",
+            "VerifierKeyUuid": "b2adc146-eefa-11e8-8eb2-f2801f1b9fd1",
+            "RetryConfig": {
+                "AuthenticationBuildAttempts": 0,
+                "AuthenticationVerifyAttempts": 0
+            },
+            "AuthDataToFvmConfig": {
+                "AuthenticationDataFreshnessStartPosition": 0,
+                "AuthDataFreshnessLength": 0
+            },
+            "AuthPduHeaderLength": 0,
+            "TxTruncatedFreshnessValue": false,
+            "PduUnusedAreas": 0,
+            "MessageLinkerConfig": {
+                "MessageLinkPosition": 0,
+                "MessageLinkLength": 0
+            }
+        },
+        {
+            "SecocId": 1,
+            "DataId": 1,
+            "FreshnessValueId": 1,
+            "SecurityProfile": {
+                "algorithmFamily": 20,
+                "algorithmMode": 16,
+                "algorithmSecondaryFamily": 0
+            },
+            "TruncationConfig": {
+                "FreshnessValueLength": 0,
+                "FreshnessValueTruncLength": 24,
+                "AuthInfoTruncLength": 8
+            },
+            "GeneratorKeyUuid": "b2adc146-eefa-11e8-8eb2-f2801f1b9fd1",
+            "VerifierKeyUuid": "b2adc146-eefa-11e8-8eb2-f2801f1b9fd1",
+            "RetryConfig": {
+                "AuthenticationBuildAttempts": 0,
+                "AuthenticationVerifyAttempts": 0
+            },
+            "AuthDataToFvmConfig": {
+                "AuthenticationDataFreshnessStartPosition": 0,
+                "AuthDataFreshnessLength": 0
+            },
+            "AuthPduHeaderLength": 0,
+            "TxTruncatedFreshnessValue": false,
+            "PduUnusedAreas": 0,
+            "MessageLinkerConfig": {
+                "MessageLinkPosition": 0,
+                "MessageLinkLength": 0
+            }
+        }
+    ],
+    "GlobalConfig": {
+        "CryptoProviderUuid": "00000000-0000-0000-0000-000000000000",
+        "CryptoServerIpcAddress": "0.0.0.42",
+        "CryptoServerIpcPort": 42,
+        "VerificationStatusOverrideIpcAddress": "1.1.1.1",
+        "VerificationStatusOverrideIpcPort": 1
+    }
+}

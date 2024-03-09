@@ -1,0 +1,190 @@
+{
+	"version": 1,
+	"network_interface": "${VWOS_NETWORK_INTERFACE_RTE}",
+	"ecu_name": "SOURCE",
+	"ecu_key_id_auth_fv": 123,
+	"auth_br_config": [{
+		"fv_id": 0,
+		"sok_freshness_type": "FV",
+		"pdu_id": 123,
+		"session_counter_length_bits": 0
+	}],
+	"challenge_response_config": [{
+		"fv_id": 1,
+		"challenge_type": "RESPONSE",
+		"signal": {
+			"frame_config": {
+				"name": "SK_SOK_CR_Gateway",
+				"frame_max_payload_size": 1452,
+				"source_ip": "fd53:7cb8:383:2::1",
+				"destination_ip": "ff14::74",
+				"source_port": 42994,
+				"destination_port": 42995
+			},
+			"pdu_config": {
+				"name": "SOK_sample_CR_01",
+				"pdu_id": 458844,
+				"length_bytes": 8
+			},
+			"signal_config": {
+				"name": "SOK_CR_sample_challenge_signal",
+				"start_byte": 0,
+				"length_in_bits": 64
+			}
+		}
+	}],
+	"unauthenticated_fv_signal_config": {
+		"frame_config": {
+			"name": "SK_SOK_Gateway",
+			"frame_max_payload_size": 1452,
+			"source_ip": "fd53:7cb8:383:2::1",
+			"destination_ip": "ff14::71",
+			"source_port": 42993,
+			"destination_port": 42995
+		},
+		"pdu_config": {
+			"name": "SOK_NoAuthenticTime_01",
+			"pdu_id": 847,
+			"length_bytes": 8
+		},
+		"signal_config": {
+			"name": "SOK_ungeschuetzte_Zeit",
+			"start_byte": 1,
+			"length_in_bits": 56
+		}
+	},
+	"authenticated_fv_value_signal_config": {
+		"frame_config": {
+			"name": "SK_SOK_Gateway_SINK",
+			"frame_max_payload_size": 1452,
+			"source_ip": "fd53:7cb8:383:2::1",
+			"destination_ip": "ff14::72",
+			"source_port": 42994,
+			"destination_port": 42995
+		},
+		"pdu_config": {
+			"name": "SOK_Zeit_SINK_Resp_01",
+			"pdu_id": 458796,
+			"length_bytes": 16
+		},
+		"signal_config": {
+			"name": "SOK_Zeit_SINK_Zeit",
+			"start_byte": 0,
+			"length_in_bits": 56
+		}
+	},
+	"authenticated_fv_signature_signal_config": {
+		"frame_config": {
+			"name": "SK_SOK_Gateway_SINK",
+			"frame_max_payload_size": 1452,
+			"source_ip": "fd53:7cb8:383:2::1",
+			"destination_ip": "ff14::72",
+			"source_port": 42994,
+			"destination_port": 42995
+		},
+		"pdu_config": {
+			"name": "SOK_Zeit_SINK_Resp_01",
+			"pdu_id": 458796,
+			"length_bytes": 16
+		},
+		"signal_config": {
+			"name": "SOK_Zeit_SINK_Signatur",
+			"start_byte": 8,
+			"length_in_bits": 64
+		}
+	},
+	"authenticated_fv_value_challenge_config": {
+		"frame_config": {
+			"name": "SK_SOK_SINK_Gateway",
+			"frame_max_payload_size": 1452,
+			"source_ip": "fd53:7cb8:383:2::1",
+			"destination_ip": "ff14::73",
+			"source_port": 42994,
+			"destination_port": 42995
+		},
+		"pdu_config": {
+			"name": "SOK_Zeit_SINK_Chal_01",
+			"pdu_id": 458764,
+			"length_bytes": 8
+		},
+		"signal_config": {
+			"name": "SOK_Zeit_SINK_Challenge",
+			"start_byte": 0,
+			"length_in_bits": 64
+		}
+	},
+	"key_config": [
+		{
+		"fv_id": 0,
+		"key_id": 123
+		},
+		{
+		"fv_id": 1,
+		"key_id": 123
+		}
+	],
+	"clients_signals_config": [{
+		"client_ecu_name": "SINK",
+		"key_id": 132,
+		"challenge_signal": {
+			"frame_config": {
+				"name": "SK_SOK_SINK_Gateway",
+				"frame_max_payload_size": 1452,
+				"source_ip": "fd53:7cb8:383:2::1",
+				"destination_ip": "ff14::73",
+				"source_port": 42994,
+				"destination_port": 42995
+			},
+			"pdu_config": {
+				"name": "SOK_Zeit_SINK_Chal_01",
+				"pdu_id": 458764,
+				"length_bytes": 8
+			},
+			"signal_config": {
+				"name": "SOK_Zeit_SINK_Challenge",
+				"start_byte": 0,
+				"length_in_bits": 64
+			}
+		},
+		"response_value_signal": {
+			"frame_config": {
+				"name": "SK_SOK_Gateway_SINK",
+				"frame_max_payload_size": 1452,
+				"source_ip": "fd53:7cb8:383:2::1",
+				"destination_ip": "ff14::72",
+				"source_port": 42994,
+				"destination_port": 42995
+			},
+			"pdu_config": {
+				"name": "SOK_Zeit_SINK_Resp_01",
+				"pdu_id": 458796,
+				"length_bytes": 16
+			},
+			"signal_config": {
+				"name": "SOK_Zeit_SINK_Zeit",
+				"start_byte": 0,
+				"length_in_bits": 56
+			}
+		},
+		"response_signature_signal": {
+			"frame_config": {
+				"name": "SK_SOK_Gateway_SINK",
+				"frame_max_payload_size": 1452,
+				"source_ip": "fd53:7cb8:383:2::1",
+				"destination_ip": "ff14::72",
+				"source_port": 42994,
+				"destination_port": 42995
+			},
+			"pdu_config": {
+				"name": "SOK_Zeit_SINK_Resp_01",
+				"pdu_id": 458796,
+				"length_bytes": 16
+			},
+			"signal_config": {
+				"name": "SOK_Zeit_SINK_Signatur",
+				"start_byte": 8,
+				"length_in_bits": 64
+			}
+		}
+	}]
+}

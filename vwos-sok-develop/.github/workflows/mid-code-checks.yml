@@ -1,0 +1,31 @@
+name: SWP.MID - Code Checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - integration
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - develop
+      - integration
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  code-checks:
+    uses: swp-mid/vwos-mid-ci/.github/workflows/mid-cicd-component-code-checks.yml@v2
+    with:
+      recipe: conanfile.py
+      parasoft-sca-cmake-target: sca
+      parasoft-sca-cmake-option: ENABLE_PARASOFT_SCA=ON
+      gtest-cmake-target: tests
+      gtest-cmake-option: ENABLE_UNIT_TESTS=ON
+      gtest-pattern: '**/*_gtest'
+      clang-tidy-cmake-target: clang-tidy-check
+      clang-format-cmake-target: clang-format-check
+    secrets: inherit

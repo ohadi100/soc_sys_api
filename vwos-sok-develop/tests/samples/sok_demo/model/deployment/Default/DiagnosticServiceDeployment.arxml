@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <ADMIN-DATA/>
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>vwg</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>applications</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>@EXECUTABLE_NAME@</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE>
+                  <SHORT-NAME>deployment</SHORT-NAME>
+                  <AR-PACKAGES>
+                    <AR-PACKAGE>
+                      <SHORT-NAME>Default</SHORT-NAME>
+                      <AR-PACKAGES>
+                        <AR-PACKAGE>
+                          <SHORT-NAME>ServiceInterfaceMapping</SHORT-NAME>
+                          <ELEMENTS>
+                            <PROVIDED-USER-DEFINED-SERVICE-INSTANCE>
+                              <SHORT-NAME>DiagnosticDataManagment_ProvidedServiceInstance</SHORT-NAME>
+                              <ADMIN-DATA>
+                                <SDGS>
+                                  <SDG GID="DvMex:ProvidedIpcBindingServiceInstanceExtension">
+                                    <SD GID="DvMex-version">1.0.0</SD>
+                                    <SDG GID="userDefinedIpcBinding">
+                                      <SDG GID="ProvidedIpcBindingServiceInstance">
+                                        <SD GID="serviceInstanceId">4</SD>
+                                        <SD GID="serviceOfferTimeToLive">3</SD>
+                                        <SD GID="domain">4712</SD>
+                                        <SD GID="port">24402</SD>
+                                      </SDG>
+                                    </SDG>
+                                  </SDG>
+                                </SDGS>
+                              </ADMIN-DATA>
+                              <SERVICE-INTERFACE-DEPLOYMENT-REF DEST="USER-DEFINED-SERVICE-INTERFACE-DEPLOYMENT">/vwg/services/sysdiagapi/deployment/serviceinterface/DiagnosticDataManagement_IPC</SERVICE-INTERFACE-DEPLOYMENT-REF>
+                            </PROVIDED-USER-DEFINED-SERVICE-INSTANCE>
+                            <REQUIRED-USER-DEFINED-SERVICE-INSTANCE>
+                              <SHORT-NAME>DiagnosticDataManagment_RequiredServiceInstance</SHORT-NAME>
+                              <ADMIN-DATA>
+                                <SDGS>
+                                  <SDG GID="DvMex:RequiredIpcBindingServiceInstanceExtension">
+                                    <SD GID="DvMex-version">1.0.0</SD>
+                                    <SDG GID="userDefinedIpcBinding">
+                                      <SDG GID="RequiredIpcBindingServiceInstance">
+                                        <SD GID="serviceInstanceId">1</SD>
+                                        <SD GID="minorVersion">0</SD>
+                                      </SDG>
+                                    </SDG>
+                                  </SDG>
+                                </SDGS>
+                              </ADMIN-DATA>
+                              <SERVICE-INTERFACE-DEPLOYMENT-REF DEST="USER-DEFINED-SERVICE-INTERFACE-DEPLOYMENT">/vwg/services/sysdiagapi/deployment/serviceinterface/DiagnosticDataManagement_IPC</SERVICE-INTERFACE-DEPLOYMENT-REF>
+                            </REQUIRED-USER-DEFINED-SERVICE-INSTANCE>
+                            <SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+                              <SHORT-NAME>DiagnosticDataManagement_PServInstMapping</SHORT-NAME>
+                              <PORT-PROTOTYPE-IREF>
+                                <CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF DEST="ROOT-SW-COMPONENT-PROTOTYPE">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@/@EXECUTABLE_NAME@RootSWC</CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF>
+                                <TARGET-PORT-PROTOTYPE-REF DEST="P-PORT-PROTOTYPE">/vwg/applications/@EXECUTABLE_NAME@/design/RootSWC/PDiagnosticDataManagement</TARGET-PORT-PROTOTYPE-REF>
+                              </PORT-PROTOTYPE-IREF>
+                              <PROCESS-DESIGN-REF DEST="PROCESS-DESIGN">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@ProcessDesign</PROCESS-DESIGN-REF>
+                              <PROCESS-REF DEST="PROCESS">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/@EXECUTABLE_NAME@Process_Default</PROCESS-REF>
+                              <SERVICE-INSTANCE-REF DEST="PROVIDED-USER-DEFINED-SERVICE-INSTANCE">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/ServiceInterfaceMapping/DiagnosticDataManagment_ProvidedServiceInstance</SERVICE-INSTANCE-REF>
+                            </SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+                            <SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+                              <SHORT-NAME>DiagnosticDataManagement_RServInstMapping</SHORT-NAME>
+                              <PORT-PROTOTYPE-IREF>
+                                <CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF DEST="ROOT-SW-COMPONENT-PROTOTYPE">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@/@EXECUTABLE_NAME@RootSWC</CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF>
+                                <TARGET-PORT-PROTOTYPE-REF DEST="R-PORT-PROTOTYPE">/vwg/applications/@EXECUTABLE_NAME@/design/RootSWC/RDiagnosticDataManagement</TARGET-PORT-PROTOTYPE-REF>
+                              </PORT-PROTOTYPE-IREF>
+                              <PROCESS-DESIGN-REF DEST="PROCESS-DESIGN">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@ProcessDesign</PROCESS-DESIGN-REF>
+                              <PROCESS-REF DEST="PROCESS">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/@EXECUTABLE_NAME@_Default</PROCESS-REF>
+                              <SERVICE-INSTANCE-REF DEST="REQUIRED-USER-DEFINED-SERVICE-INSTANCE">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/ServiceInterfaceMapping/DiagnosticDataManagment_RequiredServiceInstance</SERVICE-INSTANCE-REF>
+                            </SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+                            <USER-DEFINED-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+                              <SHORT-NAME>DiagnosticDataManagement_PServInstToMachineMap</SHORT-NAME>
+                              <COMMUNICATION-CONNECTOR-REF DEST="ETHERNET-COMMUNICATION-CONNECTOR">/vwg/machines/Default/MachineDesign/EthernetCommunicationConnector</COMMUNICATION-CONNECTOR-REF>
+                              <SERVICE-INSTANCE-REFS>
+                                <SERVICE-INSTANCE-REF DEST="PROVIDED-USER-DEFINED-SERVICE-INSTANCE">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/ServiceInterfaceMapping/DiagnosticDataManagment_ProvidedServiceInstance</SERVICE-INSTANCE-REF>
+                              </SERVICE-INSTANCE-REFS>
+                            </USER-DEFINED-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+                            <USER-DEFINED-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+                              <SHORT-NAME>DiagnosticDataManagement_RServInstToMachineMap</SHORT-NAME>
+                              <COMMUNICATION-CONNECTOR-REF DEST="ETHERNET-COMMUNICATION-CONNECTOR">/vwg/machines/Default/MachineDesign/EthernetCommunicationConnector</COMMUNICATION-CONNECTOR-REF>
+                              <SERVICE-INSTANCE-REFS>
+                                <SERVICE-INSTANCE-REF DEST="REQUIRED-USER-DEFINED-SERVICE-INSTANCE">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/ServiceInterfaceMapping/DiagnosticDataManagment_RequiredServiceInstance</SERVICE-INSTANCE-REF>
+                              </SERVICE-INSTANCE-REFS>
+                            </USER-DEFINED-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+                            <REQUIRED-USER-DEFINED-SERVICE-INSTANCE>
+                              <SHORT-NAME>DiagnosticRegistration_RequiredServiceInstance</SHORT-NAME>
+                              <ADMIN-DATA>
+                                <SDGS>
+                                  <SDG GID="DvMex:RequiredIpcBindingServiceInstanceExtension">
+                                    <SD GID="DvMex-version">1.0.0</SD>
+                                    <SDG GID="userDefinedIpcBinding">
+                                      <SDG GID="RequiredIpcBindingServiceInstance">
+                                        <SD GID="serviceInstanceId">1</SD>
+                                        <SD GID="minorVersion">0</SD>
+                                      </SDG>
+                                    </SDG>
+                                  </SDG>
+                                </SDGS>
+                              </ADMIN-DATA>
+                              <SERVICE-INTERFACE-DEPLOYMENT-REF DEST="USER-DEFINED-SERVICE-INTERFACE-DEPLOYMENT">/vwg/services/sysdiagapi/deployment/serviceinterface/DiagnosticRegistration_IPC</SERVICE-INTERFACE-DEPLOYMENT-REF>
+                            </REQUIRED-USER-DEFINED-SERVICE-INSTANCE>
+                            <SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+                              <SHORT-NAME>DiagnosticRegistration_RServInstMapping</SHORT-NAME>
+                              <PORT-PROTOTYPE-IREF>
+                                <CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF DEST="ROOT-SW-COMPONENT-PROTOTYPE">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@/@EXECUTABLE_NAME@RootSWC</CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF>
+                                <TARGET-PORT-PROTOTYPE-REF DEST="R-PORT-PROTOTYPE">/vwg/applications/@EXECUTABLE_NAME@/design/RootSWC/RDiagnosticRegistration</TARGET-PORT-PROTOTYPE-REF>
+                              </PORT-PROTOTYPE-IREF>
+                              <PROCESS-DESIGN-REF DEST="PROCESS-DESIGN">/vwg/applications/@EXECUTABLE_NAME@/design/@EXECUTABLE_NAME@ProcessDesign</PROCESS-DESIGN-REF>
+                              <PROCESS-REF DEST="PROCESS">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/@EXECUTABLE_NAME@_Default</PROCESS-REF>
+                              <SERVICE-INSTANCE-REF DEST="REQUIRED-USER-DEFINED-SERVICE-INSTANCE">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/ServiceInterfaceMapping/DiagnosticRegistration_RequiredServiceInstance</SERVICE-INSTANCE-REF>
+                            </SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+                            <USER-DEFINED-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+                              <SHORT-NAME>DiagnosticRegistration_RServInstToMachineMap</SHORT-NAME>
+                              <COMMUNICATION-CONNECTOR-REF DEST="ETHERNET-COMMUNICATION-CONNECTOR">/vwg/machines/Default/MachineDesign/EthernetCommunicationConnector</COMMUNICATION-CONNECTOR-REF>
+                              <SERVICE-INSTANCE-REFS>
+                                <SERVICE-INSTANCE-REF DEST="REQUIRED-USER-DEFINED-SERVICE-INSTANCE">/vwg/applications/@EXECUTABLE_NAME@/deployment/Default/ServiceInterfaceMapping/DiagnosticRegistration_RequiredServiceInstance</SERVICE-INSTANCE-REF>
+                              </SERVICE-INSTANCE-REFS>
+                            </USER-DEFINED-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+                          </ELEMENTS>
+                        </AR-PACKAGE>
+                      </AR-PACKAGES>
+                    </AR-PACKAGE>
+                  </AR-PACKAGES>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

@@ -1,0 +1,31 @@
+name: SWP.MID - Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - integration
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - develop
+      - integration
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  conan-build-matrix:
+    strategy:
+      matrix:
+        host-profiles: [linux-host, qnx-host, qnx-host-qc, linux-armv8]
+      fail-fast: false
+    uses: swp-mid/vwos-mid-ci/.github/workflows/mid-cicd-component-integration.yml@v3
+    with:
+      commands: |
+        conanfile.py, -pr:h ${{ matrix.host-profiles }}
+        sample_sink.conanfile.py, -pr:h ${{ matrix.host-profiles }}
+        sample_source.conanfile.py, -pr:h ${{ matrix.host-profiles }}
+    secrets: inherit
